@@ -145,3 +145,93 @@ body.letter-open{overflow:hidden;touch-action:none}
 @media(min-width:768px){
   .letter-modal,.heart-transition{display:none!important}
 }
+
+/* ===== Memories carousel v4 ===== */
+.memory-carousel{position:relative;margin-top:8px;padding:4px 0 2px}
+.carousel-glow{
+  position:absolute;inset:8% 8% 10%;
+  background:radial-gradient(circle,rgba(255,108,157,.28),rgba(135,73,116,.10) 48%,transparent 72%);
+  filter:blur(34px);pointer-events:none;animation:carouselGlow 4s ease-in-out infinite;
+}
+.carousel-frame{
+  position:relative;
+  overflow:hidden;
+  border-radius:30px;
+  padding:2px;
+  background:linear-gradient(120deg,#ff72a2,#ffd2df,#b67bff,#ff72a2);
+  background-size:300% 300%;
+  animation:borderFlow 6s linear infinite;
+  box-shadow:0 24px 60px rgba(0,0,0,.38),0 0 36px rgba(255,111,157,.12);
+}
+.carousel-frame:before{
+  content:"";position:absolute;inset:2px;z-index:0;border-radius:28px;
+  background:#120d14;
+}
+.carousel-track{position:relative;z-index:1;min-height:535px}
+.memory-slide{
+  position:absolute;inset:0;margin:0;
+  opacity:0;transform:translateX(7%) scale(.985);
+  transition:opacity .75s ease,transform .75s cubic-bezier(.2,.75,.25,1);
+  pointer-events:none;
+  display:flex;flex-direction:column;
+}
+.memory-slide.active{opacity:1;transform:translateX(0) scale(1);pointer-events:auto}
+.memory-slide.leaving-left{opacity:0;transform:translateX(-7%) scale(.985)}
+.memory-slide.leaving-right{opacity:0;transform:translateX(7%) scale(.985)}
+.memory-slide img{
+  width:100%;height:470px;object-fit:cover;
+  border-radius:27px 27px 0 0;
+  background:#251821;
+}
+.memory-slide figcaption{
+  min-height:63px;display:flex;align-items:center;justify-content:center;
+  padding:12px 56px 16px;text-align:center;
+  color:#f5eaf0;background:linear-gradient(180deg,#171017,#120d14);
+  font-family:"Playfair Display",serif;font-style:italic;font-size:14px;
+  border-radius:0 0 27px 27px;
+}
+.carousel-arrow{
+  position:absolute;z-index:5;top:44%;transform:translateY(-50%);
+  width:42px;height:42px;border:1px solid rgba(255,255,255,.18);
+  border-radius:50%;display:grid;place-items:center;
+  background:rgba(15,9,15,.48);color:white;
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  box-shadow:0 8px 24px rgba(0,0,0,.24);
+  font-family:Arial,sans-serif;font-size:34px;font-weight:300;line-height:1;
+  padding:0 0 4px;cursor:pointer;transition:transform .2s ease,background .2s ease,border-color .2s ease;
+}
+.carousel-arrow:active{transform:translateY(-50%) scale(.9);background:rgba(255,112,160,.28);border-color:rgba(255,190,211,.55)}
+.carousel-prev{left:12px}.carousel-next{right:12px}
+.carousel-bottom{
+  position:absolute;z-index:6;left:50%;bottom:74px;transform:translateX(-50%);
+  width:calc(100% - 110px);display:flex;flex-direction:column;gap:9px;align-items:center;
+}
+.carousel-dots{display:flex;gap:7px;align-items:center;justify-content:center}
+.carousel-dot{
+  width:7px;height:7px;padding:0;border:0;border-radius:50%;
+  background:rgba(255,255,255,.35);transition:width .25s ease,background .25s ease,border-radius .25s ease;
+}
+.carousel-dot.active{width:24px;border-radius:999px;background:#ff8fb1}
+.carousel-timer{
+  width:100%;height:2px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.16);
+}
+.carousel-timer span{
+  display:block;width:0;height:100%;border-radius:inherit;
+  background:linear-gradient(90deg,#ff79aa,#ffd5e2);
+}
+.carousel-timer span.running{animation:carouselTimer 10s linear forwards}
+.carousel-hint{
+  margin:14px 0 0;text-align:center;color:#907e89;
+  font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+}
+@keyframes borderFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes carouselGlow{0%,100%{opacity:.65;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+@keyframes carouselTimer{from{width:0}to{width:100%}}
+@media(max-width:390px){
+  .carousel-track{min-height:490px}
+  .memory-slide img{height:425px}
+}
+@media(prefers-reduced-motion:reduce){
+  .carousel-frame,.carousel-glow{animation:none!important}
+  .carousel-timer span.running{animation:none!important;width:100%}
+}
