@@ -235,3 +235,4 @@ body.letter-open{overflow:hidden;touch-action:none}
   .carousel-frame,.carousel-glow{animation:none!important}
   .carousel-timer span.running{animation:none!important;width:100%}
 }
+.memory-slide.enter-from-left{transform:translateX(-7%) scale(.985)}
