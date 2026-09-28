@@ -1,22 +1,5 @@
 const START_DATE=new Date("2026-01-28T00:00:00+08:00");
 
-async function loadPhotos(){
-  const photos=[...document.querySelectorAll(".photo-b64")];
-  await Promise.all(photos.map(async img=>{
-    try{
-      const path=img.dataset.b64;
-      const res=await fetch(path,{cache:"force-cache"});
-      if(!res.ok) throw new Error("Photo failed to load");
-      const b64=(await res.text()).trim();
-      img.src="data:image/jpeg;base64,"+b64;
-      img.addEventListener("load",()=>img.style.animation="none",{once:true});
-    }catch(err){
-      console.error(err);
-      img.alt="Photo unavailable";
-    }
-  }));
-}
-
 function updateCounter(){
   const now=new Date();
   let totalMonths=(now.getFullYear()-START_DATE.getFullYear())*12+(now.getMonth()-START_DATE.getMonth());
@@ -34,7 +17,12 @@ function updateCounter(){
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
-  loadPhotos();
+  document.querySelectorAll("img").forEach(img=>{
+    img.addEventListener("error",()=>{
+      img.classList.add("image-missing");
+      img.alt="Photo unavailable — upload the matching JPEG file to the repo root.";
+    });
+  });
   updateCounter();
   setInterval(updateCounter,60000);
 
