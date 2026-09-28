@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260928-3" />
+  <link rel="stylesheet" href="style.css?v=20260928-4" />
 </head>
 <body>
   <div class="desktop-lock">
@@ -50,19 +50,42 @@
 
     <section class="section memories" id="memories">
       <div class="section-heading reveal"><span class="kicker">01 · Memories</span><h2>Moments I’ll always want to remember.</h2></div>
-      <div class="memory-stack">
-        <figure class="polaroid reveal rotate-left">
-          <img data-b64="assets/photo-2.b64" alt="Christian and Leomary outdoors" class="photo-b64" />
-          <figcaption>one of those days I’d gladly relive ✦</figcaption>
-        </figure>
-        <figure class="polaroid reveal rotate-right">
-          <img data-b64="assets/photo-3.b64" alt="Christian and Leomary sitting together" class="photo-b64" />
-          <figcaption>simple moment, favorite person.</figcaption>
-        </figure>
-        <figure class="polaroid reveal rotate-left small-tilt">
-          <img data-b64="assets/photo-4.b64" alt="Christian and Leomary sharing a sweet moment" class="photo-b64" />
-          <figcaption>anywhere feels better when I’m with you.</figcaption>
-        </figure>
+      <div class="memory-carousel reveal" id="memoryCarousel" aria-label="Our memories photo carousel">
+        <div class="carousel-glow" aria-hidden="true"></div>
+        <div class="carousel-frame">
+          <div class="carousel-track" id="carouselTrack">
+            <figure class="memory-slide active">
+              <img data-b64="assets/photo-1.b64" alt="Christian and Leomary together" class="photo-b64" />
+              <figcaption>just us ♡</figcaption>
+            </figure>
+            <figure class="memory-slide">
+              <img data-b64="assets/photo-2.b64" alt="Christian and Leomary outdoors" class="photo-b64" />
+              <figcaption>one of those days I’d gladly relive ✦</figcaption>
+            </figure>
+            <figure class="memory-slide">
+              <img data-b64="assets/photo-3.b64" alt="Christian and Leomary sitting together" class="photo-b64" />
+              <figcaption>simple moment, favorite person.</figcaption>
+            </figure>
+            <figure class="memory-slide">
+              <img data-b64="assets/photo-4.b64" alt="Christian and Leomary sharing a sweet moment" class="photo-b64" />
+              <figcaption>anywhere feels better when I’m with you.</figcaption>
+            </figure>
+          </div>
+
+          <button class="carousel-arrow carousel-prev" id="carouselPrev" type="button" aria-label="Previous photo">‹</button>
+          <button class="carousel-arrow carousel-next" id="carouselNext" type="button" aria-label="Next photo">›</button>
+
+          <div class="carousel-bottom">
+            <div class="carousel-dots" id="carouselDots" aria-label="Choose photo">
+              <button class="carousel-dot active" type="button" aria-label="Photo 1"></button>
+              <button class="carousel-dot" type="button" aria-label="Photo 2"></button>
+              <button class="carousel-dot" type="button" aria-label="Photo 3"></button>
+              <button class="carousel-dot" type="button" aria-label="Photo 4"></button>
+            </div>
+            <div class="carousel-timer" aria-hidden="true"><span id="carouselTimer"></span></div>
+          </div>
+        </div>
+        <p class="carousel-hint">Auto next every 10 seconds · use ‹ › anytime</p>
       </div>
     </section>
 
@@ -139,6 +162,6 @@
 
     <footer><p>Christian ♥ Leomary</p><span>Para sa'yo lang · January 28, 2026</span></footer>
   </main>
-  <script src="script.js?v=20260928-3"></script>
+  <script src="script.js?v=20260928-4"></script>
 </body>
 </html>
