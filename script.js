@@ -30,7 +30,7 @@ function updateCounter(){
   document.getElementById("months").textContent=totalMonths;
   document.getElementById("days").textContent=days;
   document.getElementById("hours").textContent=hours;
-  document.getElementById("exactDays").textContent=totalDays.toLocaleString()+" days of us — and counting.";
+  document.getElementById("exactDays").textContent=totalDays.toLocaleString()+" days together — and counting ♡";
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
@@ -46,9 +46,12 @@ document.addEventListener("DOMContentLoaded",()=>{
   const btn=document.getElementById("surpriseBtn");
   const message=document.getElementById("hiddenMessage");
   btn?.addEventListener("click",()=>{
-    const open=message.classList.toggle("open");
-    message.setAttribute("aria-hidden",String(!open));
-    btn.textContent=open?"For you, always ♥":"Open my message ♥";
-    if(open&&navigator.vibrate)navigator.vibrate([35,35,50]);
+    message.classList.add("open");
+    message.setAttribute("aria-hidden","false");
+    btn.textContent="Para sa'yo 'to ♥";
+    btn.disabled=true;
+    btn.style.opacity=".72";
+    btn.style.cursor="default";
+    if(navigator.vibrate)navigator.vibrate([35,35,50]);
   });
 });
