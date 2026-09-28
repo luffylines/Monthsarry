@@ -46,16 +46,61 @@ document.addEventListener("DOMContentLoaded",()=>{
   const btn=document.getElementById("surpriseBtn");
   const modal=document.getElementById("letterModal");
   const closeBtn=document.getElementById("letterClose");
-  const letterPhoto=document.getElementById("letterPhoto");
+  const transition=document.getElementById("heartTransition");
+  const particles=document.getElementById("heartParticles");
+  let opening=false;
 
-  const openLetter=()=>{
-    const sourcePhoto=document.querySelector(".hero-photo");
-    if(sourcePhoto?.src) letterPhoto.src=sourcePhoto.src;
+  const buildHearts=()=>{
+    if(!particles)return;
+    particles.innerHTML="";
+    const positions=[
+      [-110,-180,-18,18,0],[-72,-220,12,15,70],[-25,-185,-8,20,120],
+      [35,-225,18,16,40],[82,-175,-14,22,100],[120,-120,16,17,150],
+      [135,-35,-18,21,30],[110,55,12,16,110],[70,120,-10,20,60],
+      [20,155,18,17,130],[-35,145,-15,22,20],[-85,110,10,16,100],
+      [-125,45,-12,19,50],[-140,-35,16,16,140],[-105,-105,-16,21,80],
+      [58,-95,12,15,170],[-52,-80,-8,18,160],[88,15,14,17,90]
+    ];
+    positions.forEach(([x,y,r,size,delay])=>{
+      const heart=document.createElement("span");
+      heart.className="heart-particle";
+      heart.textContent="♥";
+      heart.style.setProperty("--x",x+"px");
+      heart.style.setProperty("--y",y+"px");
+      heart.style.setProperty("--r",r+"deg");
+      heart.style.setProperty("--size",size+"px");
+      heart.style.setProperty("--delay",delay+"ms");
+      heart.style.setProperty("--duration",(850+delay)+"ms");
+      particles.appendChild(heart);
+    });
+  };
+
+  const showLetter=()=>{
     modal.classList.add("open");
     modal.setAttribute("aria-hidden","false");
     document.body.classList.add("letter-open");
-    modal.querySelector(".letter-modal-sheet")?.scrollTo({top:0,behavior:"instant"});
-    if(navigator.vibrate)navigator.vibrate([35,35,50]);
+    modal.querySelector(".letter-modal-sheet")?.scrollTo({top:0,left:0,behavior:"auto"});
+    opening=false;
+  };
+
+  const openLetter=()=>{
+    if(opening)return;
+    opening=true;
+    buildHearts();
+    transition.classList.remove("hide");
+    transition.classList.add("show");
+    transition.setAttribute("aria-hidden","false");
+    if(navigator.vibrate)navigator.vibrate([30,30,45]);
+
+    setTimeout(()=>{
+      transition.classList.add("hide");
+      showLetter();
+    },1050);
+
+    setTimeout(()=>{
+      transition.classList.remove("show","hide");
+      transition.setAttribute("aria-hidden","true");
+    },1450);
   };
 
   const closeLetter=()=>{
