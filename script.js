@@ -124,12 +124,12 @@ document.addEventListener("DOMContentLoaded",()=>{
     if(!particles)return;
     particles.innerHTML="";
     const positions=[
-      [-110,-180,-18,18,0],[-72,-220,12,15,70],[-25,-185,-8,20,120],
-      [35,-225,18,16,40],[82,-175,-14,22,100],[120,-120,16,17,150],
-      [135,-35,-18,21,30],[110,55,12,16,110],[70,120,-10,20,60],
-      [20,155,18,17,130],[-35,145,-15,22,20],[-85,110,10,16,100],
-      [-125,45,-12,19,50],[-140,-35,16,16,140],[-105,-105,-16,21,80],
-      [58,-95,12,15,170],[-52,-80,-8,18,160],[88,15,14,17,90]
+      [-120,-190,-18,18,0],[-76,-225,12,15,60],[-28,-188,-8,20,110],
+      [34,-230,18,16,30],[84,-180,-14,22,90],[122,-122,16,17,140],
+      [138,-38,-18,21,20],[112,58,12,16,100],[72,124,-10,20,50],
+      [22,158,18,17,120],[-38,148,-15,22,10],[-88,112,10,16,90],
+      [-128,48,-12,19,40],[-144,-38,16,16,130],[-108,-108,-16,21,70],
+      [60,-98,12,15,160],[-54,-82,-8,18,150],[90,18,14,17,80]
     ];
     positions.forEach(([x,y,r,size,delay])=>{
       const heart=document.createElement("span");
@@ -140,52 +140,55 @@ document.addEventListener("DOMContentLoaded",()=>{
       heart.style.setProperty("--r",r+"deg");
       heart.style.setProperty("--size",size+"px");
       heart.style.setProperty("--delay",delay+"ms");
-      heart.style.setProperty("--duration",(850+delay)+"ms");
+      heart.style.setProperty("--duration",(760+delay)+"ms");
       particles.appendChild(heart);
     });
   };
 
   const showLetter=()=>{
+    if(!modal)return;
     modal.classList.add("open");
     modal.setAttribute("aria-hidden","false");
     document.body.classList.add("letter-open");
     const sheet=modal.querySelector(".letter-modal-sheet");
     if(sheet) sheet.scrollTop=0;
-    opening=false;
   };
 
-  const hideHeartTransition=()=>{
+  const clearHeartEffect=()=>{
+    if(!transition)return;
     transition.classList.remove("show","hide");
-    transition.setAttribute("aria-hidden","true");
     transition.style.display="none";
+    transition.setAttribute("aria-hidden","true");
   };
 
   const openLetter=()=>{
     if(opening)return;
     opening=true;
 
-    // Open the letter underneath first so it always appears even if an animation is interrupted.
     showLetter();
 
-    buildHearts();
-    transition.style.display="grid";
-    transition.classList.remove("hide");
-    transition.classList.add("show");
-    transition.setAttribute("aria-hidden","false");
+    if(transition){
+      buildHearts();
+      transition.style.display="grid";
+      transition.classList.remove("hide");
+      transition.classList.add("show");
+      transition.setAttribute("aria-hidden","false");
 
-    if(navigator.vibrate)navigator.vibrate([30,30,45]);
+      setTimeout(()=>transition.classList.add("hide"),650);
+      setTimeout(clearHeartEffect,950);
+      setTimeout(clearHeartEffect,1600);
+    }
 
-    setTimeout(()=>transition.classList.add("hide"),700);
-    setTimeout(hideHeartTransition,1050);
-
-    // Failsafe for iOS/Safari: never allow the transition layer to get stuck.
-    setTimeout(hideHeartTransition,1800);
+    if(navigator.vibrate)navigator.vibrate([30,25,40]);
+    setTimeout(()=>{opening=false},1000);
   };
 
   const closeLetter=()=>{
-    modal.classList.remove("open");
-    modal.setAttribute("aria-hidden","true");
+    clearHeartEffect();
+    modal?.classList.remove("open");
+    modal?.setAttribute("aria-hidden","true");
     document.body.classList.remove("letter-open");
+    opening=false;
   };
 
   btn?.addEventListener("click",openLetter);
