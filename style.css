@@ -273,3 +273,57 @@ button,.carousel-arrow,.carousel-dot,#surpriseBtn,.letter-close{
   .hero{min-height:100svh}
   .letter-modal-sheet{height:100svh}
 }
+
+/* v9: robust message reveal on mobile browsers */
+.letter-modal{
+  position:fixed!important;
+  inset:0!important;
+  z-index:3000!important;
+  display:none!important;
+  width:100%!important;
+  height:100dvh!important;
+  min-height:100svh!important;
+  visibility:hidden!important;
+  opacity:0!important;
+}
+.letter-modal.open{
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+.letter-modal-backdrop{
+  position:fixed!important;
+  inset:0!important;
+  background:rgba(8,5,8,.88)!important;
+}
+.letter-modal-sheet{
+  position:relative!important;
+  z-index:1!important;
+  width:min(100%,520px)!important;
+  height:100dvh!important;
+  min-height:100svh!important;
+  margin:0 auto!important;
+  background:#171116!important;
+  overflow-y:auto!important;
+  -webkit-overflow-scrolling:touch!important;
+}
+.paper-letter{
+  display:block!important;
+  opacity:1!important;
+  visibility:visible!important;
+  background:#f7f1eb!important;
+  color:#34282c!important;
+}
+.paper-copy,.paper-copy p,.paper-copy h2,.paper-copy strong{
+  visibility:visible!important;
+}
+.heart-transition{
+  position:fixed!important;
+  inset:0!important;
+  z-index:4000!important;
+  background:transparent!important;
+  pointer-events:none!important;
+  display:none!important;
+}
+.heart-transition.show{display:grid!important}
+.heart-transition.hide{opacity:0!important}
