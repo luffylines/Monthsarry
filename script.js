@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     modal.classList.add("open");
     modal.setAttribute("aria-hidden","false");
     document.body.classList.add("letter-open");
-    const sheet=modal.querySelector(".letter-modal-sheet");
+    const sheet=modal.querySelector(".message-sheet");
     if(sheet) sheet.scrollTop=0;
   };
 
