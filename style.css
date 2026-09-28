@@ -465,3 +465,109 @@ body.letter-open{overflow:hidden}
 @media (min-width:900px) and (pointer:fine){
   .message-screen{display:none!important}
 }
+
+/* ===== v11 romantic moving edge effects ===== */
+.message-effects{
+  position:fixed;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  overflow:hidden;
+}
+.message-effects .fx{
+  position:absolute;
+  top:100%;
+  color:#f3a2bd;
+  opacity:0;
+  font-size:14px;
+  filter:drop-shadow(0 0 8px rgba(245,143,181,.45));
+  animation:romanticFloat var(--fxDur,9s) linear infinite;
+  will-change:transform,opacity;
+}
+.message-effects .fx-left{left:7px}
+.message-effects .fx-right{right:7px}
+
+.fx-1{--fxDur:8.6s;animation-delay:-1.5s;font-size:13px}
+.fx-2{--fxDur:10.2s;animation-delay:-5.2s;font-size:16px}
+.fx-3{--fxDur:9.4s;animation-delay:-3.1s;font-size:12px;color:#ffd5e2}
+.fx-4{--fxDur:11s;animation-delay:-7.6s;font-size:15px}
+.fx-5{--fxDur:8.9s;animation-delay:-6.1s;font-size:12px}
+.fx-6{--fxDur:10.6s;animation-delay:-2.3s;font-size:13px;color:#ffe7ef}
+.fx-7{--fxDur:9.8s;animation-delay:-8.2s;font-size:16px}
+.fx-8{--fxDur:8.4s;animation-delay:-4.4s;font-size:12px}
+.fx-9{--fxDur:11.4s;animation-delay:-9.1s;font-size:11px;color:#ffd5e2}
+.fx-10{--fxDur:9.1s;animation-delay:-.8s;font-size:14px}
+
+@keyframes romanticFloat{
+  0%{
+    transform:translate3d(0,14vh,0) rotate(0deg) scale(.8);
+    opacity:0;
+  }
+  12%{opacity:.34}
+  48%{transform:translate3d(var(--drift,8px),-42vh,0) rotate(10deg) scale(1)}
+  82%{opacity:.26}
+  100%{
+    transform:translate3d(calc(var(--drift,8px) * -1),-118vh,0) rotate(-12deg) scale(.9);
+    opacity:0;
+  }
+}
+.message-effects .fx:nth-child(odd){--drift:10px}
+.message-effects .fx:nth-child(even){--drift:-9px}
+
+.message-paper{
+  box-shadow:
+    0 22px 55px rgba(0,0,0,.36),
+    0 0 0 1px rgba(225,122,154,.16),
+    0 0 28px rgba(214,99,134,.10);
+  animation:messagePaperGlow 4.8s ease-in-out infinite;
+}
+.message-paper:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  border-radius:14px;
+  pointer-events:none;
+  border:1px solid rgba(226,122,155,.24);
+  box-shadow:inset 0 0 22px rgba(226,122,155,.05);
+}
+.message-paper>*{position:relative;z-index:3}
+
+@keyframes messagePaperGlow{
+  0%,100%{
+    box-shadow:
+      0 22px 55px rgba(0,0,0,.36),
+      0 0 0 1px rgba(225,122,154,.13),
+      0 0 20px rgba(214,99,134,.07);
+  }
+  50%{
+    box-shadow:
+      0 22px 55px rgba(0,0,0,.36),
+      0 0 0 1px rgba(255,180,205,.28),
+      0 0 36px rgba(214,99,134,.16);
+  }
+}
+
+/* Keep all animation outside the readable text area */
+.message-copy{
+  position:relative;
+  z-index:5;
+  background:#f7f1eb;
+}
+.message-paper-accent{
+  position:relative;
+  z-index:5;
+}
+.message-top{
+  z-index:10;
+}
+
+@media(max-width:390px){
+  .message-effects .fx-left{left:3px}
+  .message-effects .fx-right{right:3px}
+  .message-effects .fx{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  .message-effects .fx{animation-duration:16s!important;opacity:.18}
+  .message-paper{animation:none!important}
+}
