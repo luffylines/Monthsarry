@@ -571,3 +571,129 @@ body.letter-open{overflow:hidden}
   .message-effects .fx{animation-duration:16s!important;opacity:.18}
   .message-paper{animation:none!important}
 }
+
+/* ===== v13 stronger romantic edge animation ===== */
+.message-paper{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(238,151,183,.38);
+  animation:romanticBorderPulse 3.6s ease-in-out infinite;
+}
+.message-paper:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+  border-radius:14px;
+  padding:1px;
+  background:linear-gradient(135deg,
+    rgba(255,154,190,.25),
+    rgba(255,255,255,.10),
+    rgba(203,131,255,.22),
+    rgba(255,154,190,.25)
+  );
+  background-size:260% 260%;
+  animation:romanticBorderFlow 5.5s linear infinite;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+          mask-composite:exclude;
+}
+
+.paper-edge-effects{
+  position:absolute;
+  inset:0;
+  z-index:7;
+  pointer-events:none;
+  overflow:hidden;
+}
+.edge-heart{
+  position:absolute;
+  bottom:-34px;
+  color:#d9658b;
+  opacity:0;
+  font-size:18px;
+  line-height:1;
+  text-shadow:0 0 10px rgba(217,101,139,.30);
+  animation:edgeHeartFloat var(--edgeDur,7.8s) linear infinite;
+  will-change:transform,opacity;
+}
+.edge-heart.left{left:7px}
+.edge-heart.right{right:7px}
+
+.e1{--edgeDur:7.4s;animation-delay:-.8s;font-size:17px}
+.e2{--edgeDur:8.3s;animation-delay:-4.2s;font-size:14px}
+.e3{--edgeDur:6.9s;animation-delay:-2.1s;font-size:12px;color:#e7a0b8}
+.e4{--edgeDur:9.1s;animation-delay:-6.6s;font-size:19px}
+.e5{--edgeDur:7.7s;animation-delay:-3.2s;font-size:15px}
+.e6{--edgeDur:8.8s;animation-delay:-5.4s;font-size:18px}
+.e7{--edgeDur:7.1s;animation-delay:-1.4s;font-size:12px;color:#e6a7c1}
+.e8{--edgeDur:9.4s;animation-delay:-7.1s;font-size:15px}
+
+@keyframes edgeHeartFloat{
+  0%{
+    transform:translate3d(0,0,0) rotate(0deg) scale(.75);
+    opacity:0;
+  }
+  8%{opacity:.65}
+  45%{
+    transform:translate3d(var(--edgeDrift,7px),-48vh,0) rotate(8deg) scale(1);
+    opacity:.55;
+  }
+  85%{opacity:.42}
+  100%{
+    transform:translate3d(calc(var(--edgeDrift,7px) * -1),-108vh,0) rotate(-10deg) scale(.86);
+    opacity:0;
+  }
+}
+.edge-heart:nth-child(odd){--edgeDrift:8px}
+.edge-heart:nth-child(even){--edgeDrift:-7px}
+
+@keyframes romanticBorderPulse{
+  0%,100%{
+    box-shadow:
+      0 22px 55px rgba(0,0,0,.36),
+      0 0 0 1px rgba(217,101,139,.12),
+      0 0 18px rgba(217,101,139,.08);
+  }
+  50%{
+    box-shadow:
+      0 22px 55px rgba(0,0,0,.36),
+      0 0 0 1px rgba(255,175,204,.34),
+      0 0 40px rgba(217,101,139,.22);
+  }
+}
+@keyframes romanticBorderFlow{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* make room for effects without covering the letter text */
+.message-copy{
+  padding-left:34px;
+  padding-right:34px;
+}
+.message-copy p,.message-copy h2,.message-date,.message-signature{
+  position:relative;
+  z-index:9;
+}
+.message-paper-accent{
+  position:relative;
+  z-index:9;
+}
+
+/* keep edge animation visible even if Reduce Motion is enabled */
+@media(prefers-reduced-motion:reduce){
+  .edge-heart{
+    animation:edgeHeartFloat 12s linear infinite!important;
+  }
+  .message-paper{
+    animation:romanticBorderPulse 6s ease-in-out infinite!important;
+  }
+  .message-paper:after{
+    animation:romanticBorderFlow 9s linear infinite!important;
+  }
+}
