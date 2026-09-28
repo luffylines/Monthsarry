@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded",()=>{
   document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 
 
-  // Memories carousel: auto-advances every 10 seconds and resets after manual navigation.
+  // Memories carousel: auto-advances every 5 seconds and resets after manual navigation.
   const carousel=document.getElementById("memoryCarousel");
   const slides=[...document.querySelectorAll(".memory-slide")];
   const dots=[...document.querySelectorAll(".carousel-dot")];
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded",()=>{
       void timerBar.offsetWidth;
       timerBar.classList.add("running");
     }
-    carouselTimeout=setTimeout(()=>showSlide(currentSlide+1,1),10000);
+    carouselTimeout=setTimeout(()=>showSlide(currentSlide+1,1),5000);
   };
 
   const showSlide=(nextIndex,direction=1)=>{
@@ -149,28 +149,37 @@ document.addEventListener("DOMContentLoaded",()=>{
     modal.classList.add("open");
     modal.setAttribute("aria-hidden","false");
     document.body.classList.add("letter-open");
-    modal.querySelector(".letter-modal-sheet")?.scrollTo({top:0,left:0,behavior:"auto"});
+    const sheet=modal.querySelector(".letter-modal-sheet");
+    if(sheet) sheet.scrollTop=0;
     opening=false;
+  };
+
+  const hideHeartTransition=()=>{
+    transition.classList.remove("show","hide");
+    transition.setAttribute("aria-hidden","true");
+    transition.style.display="none";
   };
 
   const openLetter=()=>{
     if(opening)return;
     opening=true;
+
+    // Open the letter underneath first so it always appears even if an animation is interrupted.
+    showLetter();
+
     buildHearts();
+    transition.style.display="grid";
     transition.classList.remove("hide");
     transition.classList.add("show");
     transition.setAttribute("aria-hidden","false");
+
     if(navigator.vibrate)navigator.vibrate([30,30,45]);
 
-    setTimeout(()=>{
-      transition.classList.add("hide");
-      showLetter();
-    },1050);
+    setTimeout(()=>transition.classList.add("hide"),700);
+    setTimeout(hideHeartTransition,1050);
 
-    setTimeout(()=>{
-      transition.classList.remove("show","hide");
-      transition.setAttribute("aria-hidden","true");
-    },1450);
+    // Failsafe for iOS/Safari: never allow the transition layer to get stuck.
+    setTimeout(hideHeartTransition,1800);
   };
 
   const closeLetter=()=>{
