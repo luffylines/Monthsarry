@@ -44,14 +44,28 @@ document.addEventListener("DOMContentLoaded",()=>{
   document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 
   const btn=document.getElementById("surpriseBtn");
-  const message=document.getElementById("hiddenMessage");
-  btn?.addEventListener("click",()=>{
-    message.classList.add("open");
-    message.setAttribute("aria-hidden","false");
-    btn.textContent="Para sa'yo 'to ♥";
-    btn.disabled=true;
-    btn.style.opacity=".72";
-    btn.style.cursor="default";
+  const modal=document.getElementById("letterModal");
+  const closeBtn=document.getElementById("letterClose");
+  const letterPhoto=document.getElementById("letterPhoto");
+
+  const openLetter=()=>{
+    const sourcePhoto=document.querySelector(".hero-photo");
+    if(sourcePhoto?.src) letterPhoto.src=sourcePhoto.src;
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden","false");
+    document.body.classList.add("letter-open");
+    modal.querySelector(".letter-modal-sheet")?.scrollTo({top:0,behavior:"instant"});
     if(navigator.vibrate)navigator.vibrate([35,35,50]);
-  });
+  };
+
+  const closeLetter=()=>{
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden","true");
+    document.body.classList.remove("letter-open");
+  };
+
+  btn?.addEventListener("click",openLetter);
+  closeBtn?.addEventListener("click",closeLetter);
+  modal?.querySelector("[data-close-letter]")?.addEventListener("click",closeLetter);
+  document.addEventListener("keydown",e=>{if(e.key==="Escape")closeLetter()});
 });
